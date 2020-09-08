@@ -32,7 +32,7 @@ Feel free to ask questions!
 # ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
 
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
+student = (name = "Sergei", kerberos_id = "nikas")
 
 # press the ▶ button in the bottom right of this cell to run your edits
 # or use Shift+Enter
@@ -87,15 +87,18 @@ md"#### Exerise 1.1
 "
 
 # ╔═╡ f51333a6-eded-11ea-34e6-bfbb3a69bcb0
-random_vect = missing # replace this with your code!
+random_vect = rand(10) # replace this with your code!
 
 # ╔═╡ cf738088-eded-11ea-2915-61735c2aa990
 md"👉 Make a function `mean` using a `for` loop, which computes the mean/average of a vector of numbers."
 
 # ╔═╡ 0ffa8354-edee-11ea-2883-9d5bfea4a236
 function mean(x)
-	
-	return missing
+	sum = 0
+	for el in x
+		sum = sum + el
+	end
+	return sum/length(x)
 end
 
 # ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
@@ -105,15 +108,15 @@ mean([1, 2, 3])
 md"👉 Define `m` to be the mean of `random_vect`."
 
 # ╔═╡ 2a391708-edee-11ea-124e-d14698171b68
-m = missing
+m = mean(random_vect)
 
 # ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
 md"""👉 Write a function `demean`, which takes a vector `x` and subtracts the mean from each value in `x`."""
 
 # ╔═╡ ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
 function demean(x)
-	
-	return missing
+	m = mean(x)
+	return [el - m for el in x]
 end
 
 # ╔═╡ 29e10640-edf0-11ea-0398-17dbf4242de3
@@ -144,8 +147,9 @@ md"""
 
 # ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
 function create_bar()
-	
-	return missing
+	z = zeros(100)
+	z[40:60] .=1
+	return z
 end
 
 # ╔═╡ 22f28dae-edf2-11ea-25b5-11c369ae1253
@@ -158,7 +162,7 @@ md"""
 # ╔═╡ 8c19fb72-ed6c-11ea-2728-3fa9219eddc4
 function vecvec_to_matrix(vecvec)
 	
-	return missing
+	return hcat(vecvec...)
 end
 
 # ╔═╡ c4761a7e-edf2-11ea-1e75-118e73dadbed
@@ -174,8 +178,20 @@ md"""
 # ╔═╡ 9f1c6d04-ed6c-11ea-007b-75e7e780703d
 function matrix_to_vecvec(matrix)
 	
-	return missing
+	return [matrix[i,:] for i in 1:size(matrix,1)]
 end
+
+# ╔═╡ 72358f70-f14d-11ea-02f5-b32aee771c12
+matrix1 = [6 7; 8 9]
+
+# ╔═╡ 0688cbf0-f208-11ea-0674-efbb3453a2d5
+typeof(matrix1)
+
+# ╔═╡ 0fdc08c0-f208-11ea-3d7e-13f717f9c2ec
+typeof(matrix_to_vecvec([6 7; 8 9]))
+
+# ╔═╡ 1921c200-f14d-11ea-240f-8f88cfbdfb89
+ [matrix1[i,:] for i in 1:size(matrix1,1)]
 
 # ╔═╡ 70955aca-ed6e-11ea-2330-89b4d20b1795
 matrix_to_vecvec([6 7; 8 9])
@@ -217,14 +233,34 @@ md"""
 👉 Write a function **`mean_colors`** that accepts an object called `image`. It should calculate the mean (average) amounts of red, green and blue in the image and return a tuple `(r, g, b)` of those means.
 """
 
+# ╔═╡ 8d6574e0-f20b-11ea-1746-8b1df3086631
+matrix = [1 2 3; 4 5 6]
+
+# ╔═╡ 9bd39c00-f20b-11ea-26b1-fb29e688110d
+length(matrix)
+
 # ╔═╡ f6898df6-ee07-11ea-2838-fde9bc739c11
 function mean_colors(image)
-	
-	return missing
+    linear_array = reshape(image,1, length(image))
+	r = mean(x.r for x in linear_array)
+	g = mean(x.g for x in linear_array)
+	b = mean(x.b for x in linear_array)
+	return (r,g,b)
 end
 
-# ╔═╡ d75ec078-ee0d-11ea-3723-71fb8eecb040
+# ╔═╡ 0fc26970-f20c-11ea-1182-19fb7a3d3c38
+t = reshape([RGB(1.0, 1.0, 1.0), RGB(1.0, 1.0, 0.0)], (2,1))
 
+# ╔═╡ 8ebdee12-f20d-11ea-0be6-2334d390b359
+typeof(t)
+
+# ╔═╡ 993b04e0-f20d-11ea-0fe9-1bbf7e18b262
+mean_colors(t)
+
+# ╔═╡ d75ec078-ee0d-11ea-3723-71fb8eecb040
+begin
+floor(0.23 *10)/10
+end
 
 # ╔═╡ f68d4a36-ee07-11ea-0832-0360530f102e
 md"""
@@ -236,17 +272,17 @@ md"""
 begin
 	function quantize(x::Number)
 		
-		return missing
+		return floor(x *10)/10
 	end
 	
 	function quantize(color::AbstractRGB)
 		# you will write me in a later exercise!
-		return missing
+		return RGB(quantize(color.r),quantize(color.g),quantize(color.b))
 	end
 	
 	function quantize(image::AbstractMatrix)
 		# you will write me in a later exercise!
-		return missing
+		return quantize.(image)
 	end
 end
 
@@ -284,9 +320,9 @@ md"""
 
 # ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
 function invert(color::AbstractRGB)
-	
-	return missing
+	return RGB(1-color.r, 1-color.g, 1-color.b)
 end
+
 
 # ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
 md"Let's invert some colors:"
@@ -305,9 +341,6 @@ invert(red)
 
 # ╔═╡ 846b1330-ee0b-11ea-3579-7d90fafd7290
 md"Can you invert the picture of Philip?"
-
-# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
-philip_inverted = missing
 
 # ╔═╡ f6d6c71a-ee07-11ea-2b63-d759af80707b
 md"""
@@ -387,11 +420,19 @@ philip = let
 	decimate(original, 8)
 end
 
-# ╔═╡ 5be9b144-ee0d-11ea-2a8d-8775de265a1d
-mean_colors(philip)
+# ╔═╡ 76c5ca0e-f20a-11ea-2267-d36d350cc478
+begin
+    linear_array = reshape(philip,1, length(philip))
+	r_array = [x.r for x in linear_array ]
+	g_array = [x.g for x in linear_array ]
+	b_array = [x.b for x in linear_array ]
+end
 
 # ╔═╡ 9751586e-ee0c-11ea-0cbb-b7eda92977c9
 quantize(philip)
+
+# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
+philip_inverted = invert.(philip)
 
 # ╔═╡ ac15e0d0-ee0c-11ea-1eaf-d7f88b5df1d7
 noisify(philip, philip_noise)
@@ -1352,7 +1393,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═83eb9ca0-ed68-11ea-0bc5-99a09c68f867
 # ╟─8ef13896-ed68-11ea-160b-3550eeabbd7d
 # ╟─ac8ff080-ed61-11ea-3650-d9df06123e1f
-# ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
+# ╟─911ccbce-ed68-11ea-3606-0384e7580d7c
 # ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
 # ╠═65780f00-ed6b-11ea-1ecf-8b35523a7ac0
 # ╟─67461396-ee0a-11ea-3679-f31d46baa9b4
@@ -1389,6 +1430,10 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─adfbe9b2-ed6c-11ea-09ac-675262f420df
 # ╟─393667ca-edf2-11ea-09c5-c5d292d5e896
 # ╠═9f1c6d04-ed6c-11ea-007b-75e7e780703d
+# ╠═72358f70-f14d-11ea-02f5-b32aee771c12
+# ╠═0688cbf0-f208-11ea-0674-efbb3453a2d5
+# ╠═0fdc08c0-f208-11ea-3d7e-13f717f9c2ec
+# ╠═1921c200-f14d-11ea-240f-8f88cfbdfb89
 # ╠═70955aca-ed6e-11ea-2330-89b4d20b1795
 # ╟─e06b7fbc-edf2-11ea-1708-fb32599dded3
 # ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
@@ -1398,8 +1443,13 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═c8ecfe5c-ee05-11ea-322b-4b2714898831
 # ╟─e86ed944-ee05-11ea-3e0f-d70fc73b789c
 # ╟─c54ccdea-ee05-11ea-0365-23aaf053b7d7
+# ╠═8d6574e0-f20b-11ea-1746-8b1df3086631
+# ╠═9bd39c00-f20b-11ea-26b1-fb29e688110d
+# ╠═76c5ca0e-f20a-11ea-2267-d36d350cc478
 # ╠═f6898df6-ee07-11ea-2838-fde9bc739c11
-# ╠═5be9b144-ee0d-11ea-2a8d-8775de265a1d
+# ╠═0fc26970-f20c-11ea-1182-19fb7a3d3c38
+# ╠═8ebdee12-f20d-11ea-0be6-2334d390b359
+# ╠═993b04e0-f20d-11ea-0fe9-1bbf7e18b262
 # ╟─4d0158d0-ee0d-11ea-17c3-c169d4284acb
 # ╠═d75ec078-ee0d-11ea-3723-71fb8eecb040
 # ╟─f68d4a36-ee07-11ea-0832-0360530f102e
@@ -1524,5 +1574,5 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─5aa9dfb2-edee-11ea-3754-c368fb40637c
 # ╟─74d44e22-edee-11ea-09a0-69aa0aba3281
 # ╟─115ded8c-ee0a-11ea-3493-89487315feb7
-# ╟─dfb7c6be-ee0d-11ea-194e-9758857f7b20
+# ╠═dfb7c6be-ee0d-11ea-194e-9758857f7b20
 # ╟─e15ad330-ee0d-11ea-25b6-1b1b3f3d7888
