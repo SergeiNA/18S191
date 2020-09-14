@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.12
+# v0.11.14
 
 using Markdown
 using InteractiveUtils
@@ -204,7 +204,7 @@ md"We can then fill in the values we want by manipulating the elements, e.g. wit
 md"A nice alternative syntax to create matrices following a certain pattern is an array comprehension with a *double* `for` loop:"
 
 # ╔═╡ 6348edce-edef-11ea-1ab4-019514eb414f
-[i + j for i in 1:5, j in 1:6]
+arr = [i + j for i in 1:5, j in 1:6]
 
 # ╔═╡ Cell order:
 # ╟─0d3aec92-edeb-11ea-3adb-cd0dc17cbdab
